@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model auth_code {
+  code_id Int    @id @default(autoincrement())
+  code    String @db.VarChar(255)
+}
+
+model type_user {
+  id        Int     @id @default(autoincrement())
+  type_name String? @db.VarChar(255)
+  level     Int     @default(0)
+  user      user[]
+}
+
+model user {
+  id            Int       @id @default(autoincrement())
+  email         String?   @db.VarChar(255)
+  username      String?   @db.VarChar(255)
+  password      String?   @db.VarChar(255)
+  full_name     String?   @db.VarChar(255)
+  phone         String?   @db.VarChar(255)
+  type          Int       @default(1)
+  refresh_token String?   @db.VarChar(255)
+  status        Int       @default(1) @db.SmallInt
+  hidden        Int       @default(0) @db.SmallInt
+  type_user     type_user @relation(fields: [type], references: [id], onUpdate: Restrict, map: "user_type_user")
+
+  @@index([type], map: "user_type_user")
+}
