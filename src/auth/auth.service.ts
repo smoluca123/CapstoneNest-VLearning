@@ -122,6 +122,20 @@ export class AuthService {
         username: user.username,
         key,
       });
+      const refreshToken = await this.jwt.signAsync(
+        { id: userId, username: user.username, key },
+        { expiresIn: '30d' },
+      );
+
+      await this.prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          refresh_token: refreshToken,
+        },
+      });
+
       const {
         password: _pw,
         type,

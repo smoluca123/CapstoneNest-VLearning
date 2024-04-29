@@ -54,7 +54,7 @@ export class UserController {
     return this.userService.getUserTypes();
   }
 
-  @Get('/get-users')
+  @Get('/get-users-pagination')
   @ApiOperation({
     summary: 'Get List Users',
     description: 'Get List Users pagination',
@@ -71,13 +71,35 @@ export class UserController {
   })
   @ApiQuery({ name: 'page', required: false, description: 'Default: 1' })
   @ApiQuery({ name: 'limit', required: false, description: 'Default: 3' })
-  getUsers(
+  getUsersPagination(
     @Query('keyword') keyword: string,
     @Query('type') typeID: string | number,
     @Query('page') page: string | number,
     @Query('limit') limit: string | number,
   ): Promise<ResponseType> {
-    return this.userService.getUsers(keyword, +typeID, +page, +limit);
+    return this.userService.getUsersPagination(keyword, +typeID, +page, +limit);
+  }
+
+  @Get('/get-users')
+  @ApiOperation({
+    summary: 'Get List Users',
+    description: 'Get List Users',
+  })
+  @ApiQuery({
+    name: 'keyword',
+    required: false,
+    description: 'Username or email, fullname',
+  })
+  @ApiQuery({
+    name: 'type',
+    required: false,
+    description: 'Type ID of users',
+  })
+  getUsers(
+    @Query('keyword') keyword: string,
+    @Query('type') typeID: string | number,
+  ): Promise<ResponseType> {
+    return this.userService.getUsers(keyword, +typeID);
   }
 
   @Get('/find-users')
@@ -89,16 +111,19 @@ export class UserController {
     name: 'keyword',
     required: false,
     description: 'Username or email',
+    type: String,
   })
   @ApiQuery({
     name: 'fullName',
     required: false,
     description: 'Fullname',
+    type: String,
   })
   @ApiQuery({
     name: 'phone',
     required: false,
     description: 'Phone number',
+    type: String,
   })
   @ApiQuery({
     name: 'typeID',
@@ -127,7 +152,7 @@ export class UserController {
 
   @Get('/get-user-info/:id')
   @ApiOperation({
-    summary: 'Get User Information',
+    summary: 'Get User Information (Admin)',
     description: 'Get User Information by ID, need Admin permission',
   })
   @UseGuards(CustomJwtVerifyGuard, AdminGuard)
@@ -191,7 +216,7 @@ export class UserController {
 
   @Delete('/delete-user/:id')
   @ApiOperation({
-    summary: 'Delete User',
+    summary: 'Delete User (Admin)',
     description: 'Delete User, need Admin permission',
   })
   @ApiHeader({ name: 'accessToken', required: true })

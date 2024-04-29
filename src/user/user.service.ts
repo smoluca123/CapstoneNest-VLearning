@@ -4,19 +4,14 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ResponseType } from 'src/interfaces/global.interface';
+import {
+  DecodedAccecssTokenType,
+  ResponseType,
+} from 'src/interfaces/global.interface';
 import { UserUpdateDto } from './dto/UserUpdate.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { UserDataDto } from './dto/NewUserData.dto';
-
-interface DecodedAccecssTokenType {
-  id: string;
-  username: string;
-  key: string | number;
-  iat?: string | number;
-  exp?: string | number;
-}
 
 @Injectable()
 export class UserService {
@@ -248,7 +243,7 @@ export class UserService {
     }
   }
 
-  async getUsers(
+  async getUsersPagination(
     keyword: string,
     typeID: number,
     page: number,
@@ -324,6 +319,71 @@ export class UserService {
           totalItems,
           items: newArr,
         },
+        statusCode: 200,
+        date: new Date(),
+      };
+    } catch (error) {
+      throw new HttpException(error.message || 'Undetermined error', 400, {});
+    }
+  }
+
+  async getUsers(keyword: string, typeID: number): Promise<ResponseType> {
+    try {
+      keyword = keyword ? keyword : undefined;
+      typeID = typeID ? typeID : undefined;
+
+      const whereQuery = {
+        hidden: 0,
+        type: typeID,
+        AND: {
+          OR: [
+            {
+              username: {
+                contains: keyword,
+              },
+            },
+            {
+              email: {
+                contains: keyword,
+              },
+            },
+            {
+              full_name: {
+                contains: keyword,
+              },
+            },
+          ],
+        },
+      };
+
+      const userList = await this.prisma.user.findMany({
+        include: {
+          type_user: {
+            select: {
+              id: true,
+              type_name: true,
+            },
+          },
+        },
+        where: whereQuery,
+      });
+
+      const newArr = userList.map((user) => {
+        const {
+          /* eslint-disable @typescript-eslint/no-unused-vars */
+          password: _pw,
+          type,
+          hidden,
+          refresh_token,
+          ...filltedUser
+        } = user;
+        return filltedUser;
+        /* eslint-enable @typescript-eslint/no-unused-vars */
+      });
+
+      return {
+        message: 'Fetch Users successfully',
+        data: newArr,
         statusCode: 200,
         date: new Date(),
       };

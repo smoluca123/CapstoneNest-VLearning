@@ -11,11 +11,17 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AuthModule } from './auth/auth.module';
 import { CustomJwtVerifyGuard } from './guards/customJwt.guard';
 import { UserModule } from './user/user.module';
+import { CourseModule } from './course/course.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
     }),
     JwtModule.registerAsync({
       global: true,
@@ -31,6 +37,7 @@ import { UserModule } from './user/user.module';
     PrismaModule,
     AuthModule,
     UserModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [

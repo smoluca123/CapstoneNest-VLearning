@@ -30,7 +30,6 @@ export class AdminGuard implements CanActivate {
       throw new ForbiddenException(
         'You do not have permission to access this resource',
       );
-      return true;
     } catch (error) {
       throw new HttpException(error.message || 'Lỗi không xác định', 400);
     }
