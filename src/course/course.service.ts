@@ -925,6 +925,7 @@ export class CourseService {
           status: true,
           course: {
             select: {
+              id: true,
               course_name: true,
               description: true,
               course_img: true,
@@ -977,6 +978,7 @@ export class CourseService {
           status: true,
           course: {
             select: {
+              id: true,
               course_name: true,
               description: true,
               course_img: true,

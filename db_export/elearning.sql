@@ -11,7 +11,7 @@
  Target Server Version : 50739 (5.7.39-log)
  File Encoding         : 65001
 
- Date: 24/04/2024 15:14:22
+ Date: 03/05/2024 22:30:08
 */
 
 SET NAMES utf8mb4;
@@ -71,13 +71,16 @@ CREATE TABLE `course`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `course_category_course`(`category`) USING BTREE,
   CONSTRAINT `course_category_course` FOREIGN KEY (`category`) REFERENCES `category_course` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of course
 -- ----------------------------
 INSERT INTO `course` VALUES (1, 'lap-trinh-nodejs', 'Lập trình NodeJS', 'Node.js là môi trường thời gian chạy JavaScript back-end, đa nền tảng, mã nguồn mở, chạy trên công cụ V8 và thực thi mã JavaScript bên ngoài trang web...', 1, '2024-04-14', 'https://elearningnew.cybersoft.edu.vn/hinhanh/lap-trinh-nodejs.png', 100, 4, 0);
 INSERT INTO `course` VALUES (2, 'lap-trinh-nodejs2', 'Lập trình NodeJS2', 'Node.js là môi trường thời gian chạy JavaScript back-end, đa nền tảng, mã nguồn mở, chạy trên công cụ V8 và thực thi mã JavaScript bên ngoài trang web...', 1, '2024-04-14', 'https://elearningnew.cybersoft.edu.vn/hinhanh/lap-trinh-nodejs.png', 100, 1, 0);
+INSERT INTO `course` VALUES (49, 'string', 'gsgg', 'string', 2, '2024-04-29', 'string', 0, 0, 0);
+INSERT INTO `course` VALUES (50, 'nestjs_the_complete_1714742287285', 'Nest JS The Complete_1714742287285', 'Nest JS The Complete', 1, '2024-05-03', 'https://nestjs.com/logo-small-gradient.76616405.svg', 0, 0, 1);
+INSERT INTO `course` VALUES (51, 'nestjs_the_complete', 'NestJS Pro 2', 'Nest JS The Complete', 1, '2024-05-03', '/img/1714741922425_super-duo-thumb.png', 0, 1, 0);
 
 -- ----------------------------
 -- Table structure for enroll_course
@@ -93,16 +96,17 @@ CREATE TABLE `enroll_course`  (
   INDEX `enroll_course_course_id`(`course_id`) USING BTREE,
   CONSTRAINT `enroll_course_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `enroll_course_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of enroll_course
 -- ----------------------------
-INSERT INTO `enroll_course` VALUES (13, 11, 1, 1);
-INSERT INTO `enroll_course` VALUES (14, 7, 1, 1);
-INSERT INTO `enroll_course` VALUES (15, 8, 1, 1);
-INSERT INTO `enroll_course` VALUES (16, 7, 2, 1);
-INSERT INTO `enroll_course` VALUES (17, 1, 1, 1);
+INSERT INTO `enroll_course` VALUES (13, 11, 1, 0);
+INSERT INTO `enroll_course` VALUES (14, 7, 1, 0);
+INSERT INTO `enroll_course` VALUES (15, 8, 1, 0);
+INSERT INTO `enroll_course` VALUES (16, 7, 2, 0);
+INSERT INTO `enroll_course` VALUES (17, 1, 1, 0);
+INSERT INTO `enroll_course` VALUES (22, 1, 51, 1);
 
 -- ----------------------------
 -- Table structure for type_user
@@ -139,14 +143,16 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_type_user`(`type`) USING BTREE,
   CONSTRAINT `user_type_user` FOREIGN KEY (`type`) REFERENCES `type_user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'test1@gmail.com', 'test1', '$2b$10$4UP5n9oemGAUu07EOGfomutgAF5hnTCj4TSZNvF0XOiGnLvCSmELW', 'Test 1', '0000000000', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0MSIsImtleSI6MTcxMzk0NDA1NzQ3NywiaWF0IjoxNzEzOTQ0MDU3LCJleHAiOjE3MTY1MzYwNTd9.MT8p81ELmyOUD8JO01Jq6OY40t3C51apI94Pj9HlBhQ', 1, 0);
-INSERT INTO `user` VALUES (7, 'dev1@gmail.com', 'dev1', '$2b$10$KUe8Sv9bOK5n.P.85wBueu9aQb0j5cvmD7yvXRBK5/HJzBON0YJ0q', 'Dev 1', '0909090909', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJkZXYxIiwia2V5IjoxNzEyNzQ2NzM0MzczLCJpYXQiOjE3MTI3NDY3MzQsImV4cCI6MTcxNTMzODczNH0.lDGnJ9IkddkvBUCGDiy4hNRC7Tdm3fdQFC6vILUApLU', 1, 0);
-INSERT INTO `user` VALUES (8, 'test2@gmail.com', 'test2', '$2b$10$13YW8DtIqsdv4oq4C6XLoentGEX0N6yt0PdgyNohSpzoV18K14PGa', 'Test 2', '0909090909', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwidXNlcm5hbWUiOiJ0ZXN0MiIsImtleSI6MTcxMzI1NDczOTc4OCwiaWF0IjoxNzEzMjU0NzM5LCJleHAiOjE3MTU4NDY3Mzl9.YnNe6uD5jOv9Y1WwaaNzFSYZC-1TtU3HvdiZMnjY7YE', 1, 0);
+INSERT INTO `user` VALUES (1, 'test1@gmail.com', 'test1', '$2b$10$4UP5n9oemGAUu07EOGfomutgAF5hnTCj4TSZNvF0XOiGnLvCSmELW', 'Changed', '0909090909', 2, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJ0ZXN0MSIsImtleSI6MTcxNDc0MjkyNDE4NiwiaWF0IjoxNzE0NzQyOTI0LCJleHAiOjE3MTczMzQ5MjR9.BPICiRxHyFaWf5Iqn1aSaYWLQ5-8aMlNLTq7c4kFjMA', 1, 0);
+INSERT INTO `user` VALUES (7, 'dev1@gmail.com', 'dev1', '$2b$10$KUe8Sv9bOK5n.P.85wBueu9aQb0j5cvmD7yvXRBK5/HJzBON0YJ0q', 'Dev 1', '0909090909', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywidXNlcm5hbWUiOiJkZXYxIiwia2V5IjoxNzE0MzY1NzE2NDY1LCJpYXQiOjE3MTQzNjU3MTYsImV4cCI6MTcxNjk1NzcxNn0.0G84vy_YtuIYIhA5j-J_rbvLwIrCq2Pf9lLbvID4dEU', 1, 0);
+INSERT INTO `user` VALUES (8, 'test2@gmail.com', 'test2', '$2b$10$13YW8DtIqsdv4oq4C6XLoentGEX0N6yt0PdgyNohSpzoV18K14PGa', 'Test 2', '0909090909', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwidXNlcm5hbWUiOiJ0ZXN0MiIsImtleSI6MTcxNDc0MTMxOTc3MSwiaWF0IjoxNzE0NzQxMzE5LCJleHAiOjE3MTczMzMzMTl9.0sWwUaEdmXlsj49PCWJckiNXVoa0EC79fUQV6xYhwHo', 1, 0);
 INSERT INTO `user` VALUES (11, 'abc@gmail.com', 'abc', '$2b$10$5q6bikHHxwFDVm.PksAskuRf3ow9iV1Pp8F4o0MobGaxXAx9i7g2C', 'Abc', '000', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsInVzZXJuYW1lIjoiYWJjIiwia2V5IjoxNzEzMjU0NzM5Nzg4LCJpYXQiOjE3MTMyNTQ3MzksImV4cCI6MTcxNTg0NjczOX0.iKZH1pJem90wUljpErMZXCFtDzcpP6IOYnYdtr3KLcA', 1, 0);
+INSERT INTO `user` VALUES (13, 'nguyenvana@gmail.com', 'vana', '$2b$10$l4cdbLyWs9SVqUD/jMe9ReWfeids3zawTSHekNiDmXBvCS85oviVu', 'Nguyen Van A', '090909090', 1, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsInVzZXJuYW1lIjoidmFuYSIsImtleSI6MTcxNDc0MTM2Mzg4MywiaWF0IjoxNzE0NzQxMzYzLCJleHAiOjE3MTczMzMzNjN9.igihEdlAuw7rBFJvmWFRwirPkEZw4cmJPxCT356UWlc', 1, 0);
+INSERT INTO `user` VALUES (14, 'nguyenvanb@gmail.com', 'vanb_1714741669206', '$2b$10$80Wv4Q2V7tMXdMxe42t1ReckVI2FrPLjrVGZIR2xYdk17CSdKryby', 'Van B Changed', '0909090909', 1, NULL, 1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
